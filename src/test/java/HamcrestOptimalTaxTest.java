@@ -1,22 +1,17 @@
-import org.junit.jupiter.api.Assertions;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.util.Scanner;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
-public class OptimalTaxTest {
+public class HamcrestOptimalTaxTest {
 
     @ParameterizedTest
     @CsvSource({"20000, 1", "300000, 2", "1000000, 5", "-100, -4"})
     void variousVariableInputTest(int sum, int inputOperation) {
 
-        assertDoesNotThrow(() -> doesNotThrowAnyException(sum, inputOperation));
 
-    }
-
-    void doesNotThrowAnyException(int sum, int inputOperation) {
         //given
         int earnings = 0;
         int spendings = 0;
@@ -37,8 +32,10 @@ public class OptimalTaxTest {
         }
 
         //then
-        Assertions.assertEquals(0, earnings);
-        Assertions.assertTrue(spendings == 0);
-        Assertions.assertFalse(spendings > 0);
+        assertThat(earnings, is(0));
+        assertThat(spendings == 0, is(true));
+        assertThat(spendings > 0, is(false));
+        assertThat(spendings, lessThanOrEqualTo(earnings));
+        assertThat(earnings + spendings, Matchers.notNullValue());
     }
 }
